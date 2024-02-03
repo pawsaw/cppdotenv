@@ -9,7 +9,7 @@ A C++20 library for loading configurations from a `.env` file.
 Make sure you're using C++20 in your app.
 
 `CMakeLists.txt`
-```
+```cmake
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ```
@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 Make sure you've added the *cppdotenv* library to your `CMakeLists.txt` file:
 
-```
+```cmake
 include(FetchContent)
 FetchContent_Declare(
     cppdotenv
@@ -45,9 +45,9 @@ DB_USER=root
 DB_PASS=s3cret
 ```
 Use it in your code:
-```
+```cpp
 #include <iostream>
-#include "cppdotenv/loadEnv.h"
+#include <loadEnv.h>
 
 int main() {
     auto env = loadEnv(".env"); // Use the library's functionality
