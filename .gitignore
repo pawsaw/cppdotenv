@@ -1,0 +1,12 @@
+# CMake
+build
+.cache
+
+# Compiled Object files
+*.o
+*.obj
+
+# macOS specific files
+.DS_Store
+
+
