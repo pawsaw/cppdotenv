@@ -1,16 +1,16 @@
 #ifndef LOADENV_H
 #define LOADENV_H
 
-#include <concepts>
-#include <array>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 #include <vector>
+#include <ostream>
 
-std::unordered_map<std::string, std::string> loadEnv(const std::string& filename);
+using env_map = std::unordered_map<std::string, std::string>;
 
-template<std::ranges::range Range>
-    requires std::same_as<std::ranges::range_value_t<Range>, std::string>
-std::unordered_map<std::string, std::string> loadEnv(const Range& filenames);
+std::ostream& operator<<(std::ostream& os, const env_map& env);
+
+env_map loadEnv(const std::string& filename);
+env_map loadEnv(const std::vector<std::string>& filenames);
 
 #endif // LOADENV_H

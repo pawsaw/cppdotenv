@@ -4,7 +4,14 @@
 
 extern char** environ;
 
-void load_from_sys_env(std::unordered_map<std::string, std::string>& env) {
+std::ostream& operator<<(std::ostream& os, const env_map& env) {
+    for (const auto& [key, value] : env) {
+        os << key << "=" << value << std::endl;
+    }
+    return os;
+}
+
+void load_from_sys_env(env_map& env) {
     for (char** envp = environ; *envp != nullptr; ++envp) {
         std::string env_str(*envp);
         const auto delimiter_position = env_str.find('=');
@@ -14,7 +21,7 @@ void load_from_sys_env(std::unordered_map<std::string, std::string>& env) {
     }
 }
 
-void load_from_file(const std::string& filename, std::unordered_map<std::string, std::string>& env) {
+void load_from_file(const std::string& filename, env_map& env) {
     std::ifstream file(filename);
     std::string line;
 
@@ -32,19 +39,17 @@ void load_from_file(const std::string& filename, std::unordered_map<std::string,
 }
 
 // Function to load environment variables from .env file
-std::unordered_map<std::string, std::string> loadEnv(const std::string& filename) {
+env_map loadEnv(const std::string& filename) {
 
-    std::unordered_map<std::string, std::string> env;
+    env_map env;
     load_from_file(filename, env);
     load_from_sys_env(env);
     
     return env;
 }
 
-template<std::ranges::range Range>
-    requires std::same_as<std::ranges::range_value_t<Range>, std::string>
-std::unordered_map<std::string, std::string> loadEnv(const Range& filenames) {
-    std::unordered_map<std::string, std::string> env;
+env_map loadEnv(const std::vector<std::string>& filenames) {
+    env_map env;
     for (const auto& filename : filenames) {
         load_from_file(filename, env);
     }
