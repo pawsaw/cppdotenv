@@ -34,12 +34,12 @@ target_include_directories(YourApp PRIVATE ${cppdotenv_SOURCE_DIR}/include)
 target_link_libraries(YourApp PRIVATE cppdotenv)
 ```
 
-### Usage
+### Basic Usage
 
 Add a `.env` file to the root of your project.
 
 *Example*:
-```
+```ini
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=s3cret
@@ -47,10 +47,10 @@ DB_PASS=s3cret
 Use it in your code:
 ```cpp
 #include <iostream>
-#include <loadEnv.h>
+#include <load_env.h>
 
 int main() {
-    auto env = loadEnv(".env"); // Use the library's functionality
+    auto env = load_env(".env"); // Use the library's functionality
 
     std::cout << "DB_HOST: " << env["DB_HOST"] << std::endl;
     std::cout << "DB_USER: " << env["DB_USER"] << std::endl;
@@ -59,6 +59,60 @@ int main() {
     return 0;
 }
 ```
+
+### Multiple *.env* files (overrides)
+
+It's also possible to use multiple `.env` files. The **order is important**. The naming does **not** matter. 
+
+*Example*:
+
+```ini
+# filename: .env
+
+FOO=foo
+BAR=bar
+```
+
+and...
+
+```ini
+# filename: .env.local
+
+BAR=bar.local
+```
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <load_env.h>
+
+int main() {
+    auto env = load_env(std::vector<std::string>{".env", ".env.local"});
+
+    std::cout << "FOO: " << env["FOO"] << std::endl; // output: FOO: foo
+    std::cout << "BAR: " << env["BAR"] << std::endl; // output: BAR: bar.local
+
+    return 0;
+}
+```
+
+### Use environment variables
+
+Environment variables override the definitions from the `.env` files.
+
+Assuming you build the example above as `myapp`, considering `.env` and `.env.local` in the same directory and execute it like this:
+
+```sh
+FOO=myfoo ./myapp
+```
+
+The output is:
+
+```sh
+FOO: myfoo
+BAR: bar.local
+```
+
 
 ## License
 
