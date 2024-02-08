@@ -1,4 +1,4 @@
-#include "loadEnv.h"
+#include "load_env.h"
 #include <fstream>
 #include <sstream>
 
@@ -30,7 +30,9 @@ void load_from_file(const std::string& filename, env_map& env) {
         std::string key;
         if (std::getline(is_line, key, '=')) {
             std::string value;
-            if (key[0] == '#' || key.empty()) continue; // Skip comments or empty lines
+            if (key[0] == '#' || key.empty()) {
+                continue; // Skip comments or empty lines
+            }
             if (std::getline(is_line, value)) {
                 env[key] = value;
             }
@@ -38,21 +40,11 @@ void load_from_file(const std::string& filename, env_map& env) {
     }
 }
 
-// Function to load environment variables from .env file
-env_map loadEnv(const std::string& filename) {
-
+env_map load_env(const std::string& filename) {
     env_map env;
     load_from_file(filename, env);
     load_from_sys_env(env);
-    
     return env;
 }
 
-env_map loadEnv(const std::vector<std::string>& filenames) {
-    env_map env;
-    for (const auto& filename : filenames) {
-        load_from_file(filename, env);
-    }
-    load_from_sys_env(env);
-    return env;
-}
+

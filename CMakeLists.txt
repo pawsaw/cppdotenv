@@ -8,7 +8,7 @@ set(CMAKE_CXX_COMPILER "/usr/local/opt/llvm/bin/clang++")
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 
 add_library(${PROJECT_NAME} SHARED
-    src/loadEnv.cpp
+    src/load_env.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -25,7 +25,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
-add_executable(tests test/test_loadEnv.cpp)
+add_executable(tests test/test_load_env.cpp)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain PRIVATE ${PROJECT_NAME})
 target_include_directories(tests PRIVATE 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
