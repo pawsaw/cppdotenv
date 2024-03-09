@@ -87,7 +87,7 @@ BAR=bar.local
 #include <load_env.h>
 
 int main() {
-    auto env = load_env(std::vector<std::string>{".env", ".env.local"});
+    auto env = load_env(std::vector<std::filesystem::path>{".env", ".env.local"});
 
     std::cout << "FOO: " << env["FOO"] << std::endl; // output: FOO: foo
     std::cout << "BAR: " << env["BAR"] << std::endl; // output: BAR: bar.local

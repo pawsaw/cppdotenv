@@ -3,9 +3,8 @@
 
 TEST_CASE("loadEnv loads environment variables from a single .env file",
           "[loadEnv]") {
-  const std::filesystem::path filepath = "./test_files/.env";
 
-  env_map env = load_env(filepath);
+  env_map env = load_env("./test_files/.env");
 
   REQUIRE(env["FOO"] == "foo");
   REQUIRE(env["BAR"] == "bar");
